@@ -20,6 +20,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Future Work
 
+- Need to fix CSS for Live Games and Pre Games once API data is available during season
 - Individual Box Scores & Game Routing
 - Past Box Scores & Games
 - Individual Player Pages (Similar to Basketball Reference)

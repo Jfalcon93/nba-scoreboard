@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { getGames } from "../utils/games";
 import { getDisplayDate } from "../utils/date";
 import Navbar from "../components/Navbar";
-import GameLayout from "../components/GameLayout";
+import GameLayout from "../components/gameElements/GameLayout";
 
 export default function Home() {
   const [data, setData] = useState({ games: [] });

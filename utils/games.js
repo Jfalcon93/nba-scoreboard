@@ -25,11 +25,23 @@ const getBoxScore = async (date, gameId) => {
   }
 };
 
+export const getTeamData = async () => {
+  try {
+    const response = await axios.get(
+      `https://data.nba.net/data/10s/prod/v1/2021/teams.json`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.response.statusText);
+    return error.response.statusText;
+  }
+};
+
 export const getGames = async () => {
   let today = await getToday();
   return await getTodaysScore(today);
 };
 
 export const getGame = async (date, gameId) => {
-  return await getBoxScore;
+  return await getBoxScore(date, gameId);
 };

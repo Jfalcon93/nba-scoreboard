@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import Team from "./gameElements/Team";
-import PreScore from "../components/gameElements/PreScore";
-import LiveScore from "../components/gameElements/LiveScore";
-import PostScore from "../components/gameElements/PostScore";
+import Link from "next/link";
+import Team from "./Team";
+import PreScore from "./PreScore";
+import LiveScore from "./LiveScore";
+import PostScore from "./PostScore";
 
 const GameLayout = ({ game }) => {
   let scoreBoard;
@@ -31,13 +32,20 @@ const GameLayout = ({ game }) => {
     );
   }
   return (
-    <div className="flex flex-row justify-center mb-8">
+    <div className="flex flex-row justify-center items-center mb-8">
       <Team
         logo={game.game.vTeam.triCode}
         wins={game.game.vTeam.win}
         losses={game.game.vTeam.loss}
       />
-      {scoreBoard}
+      <Link
+        href={{
+          pathname: "/boxscore/",
+          query: { bid: game.game.gameId, date: game.game.homeStartDate },
+        }}
+      >
+        <a className="w-full hover:text-gray-500">{scoreBoard}</a>
+      </Link>
       <Team
         logo={game.game.hTeam.triCode}
         wins={game.game.hTeam.win}

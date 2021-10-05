@@ -4,7 +4,7 @@ import { getToday } from "./date";
 const getTodaysScore = async (date) => {
   try {
     const response = await axios.get(
-      `http://data.nba.net/data/10s/prod/v1/${date}/scoreboard.json`
+      `https://data.nba.net/data/10s/prod/v1/${date}/scoreboard.json`
     );
     return response.data;
   } catch (error) {
@@ -16,7 +16,7 @@ const getTodaysScore = async (date) => {
 const getBoxScore = async (date, gameId) => {
   try {
     const response = await axios.get(
-      `http://data.nba.net/data/10s/prod/v1/${date}/${gameId}_boxscore.json`
+      `https://data.nba.net/data/10s/prod/v1/${date}/${gameId}_boxscore.json`
     );
     return response.data;
   } catch (error) {

@@ -1,6 +1,6 @@
 export const getTeamLogo = (team) => {
   let lowerTeam = team.toLowerCase();
-  return `http://i.cdn.turner.com/nba/nba/.element/img/1.0/teamsites/logos/teamlogos_500x500/${lowerTeam}.png`;
+  return `https://i.cdn.turner.com/nba/nba/.element/img/1.0/teamsites/logos/teamlogos_500x500/${lowerTeam}.png`;
 };
 
 export const checkNationalTvGame = (arr) => {
@@ -46,4 +46,18 @@ let fullTeamName = {
 
 export const getFullTeamName = (triCode) => {
   return fullTeamName[triCode];
+};
+
+export const quarterFormat = (quarter) => {
+  if (quarter === 1) {
+    return `1st Qtr`;
+  } else if (quarter === 2) {
+    return `2nd Qtr`;
+  } else if (quarter === 3) {
+    return `3rd Qtr`;
+  } else if (quarter === 4) {
+    return `4th Qtr`;
+  } else {
+    return `OT`;
+  }
 };

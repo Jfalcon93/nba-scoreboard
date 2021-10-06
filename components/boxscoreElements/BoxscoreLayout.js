@@ -18,10 +18,10 @@ const BoxscoreLayout = ({ game }) => {
   } else if (game.basicGameData.statusNum === 2) {
     scoreboard = (
       <LiveBoxscore
-        vTeamScore={"100"}
-        hTeamScore={"99"}
-        quarter={"3rd"}
-        clock={"9:34"}
+        vTeamScore={game.basicGameData.vTeam.score}
+        hTeamScore={game.basicGameData.hTeam.score}
+        quarter={game.basicGameData.period.current}
+        clock={game.basicGameData.clock}
       />
     );
   } else if (game.basicGameData.statusNum === 3) {

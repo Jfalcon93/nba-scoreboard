@@ -25,6 +25,42 @@ const getBoxScore = async (date, gameId) => {
   }
 };
 
+export const getStandings = async () => {
+  try {
+    const response = await axios.get(
+      `https://data.nba.net/10s/prod/v1/current/standings_all.json`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.response.statusText);
+    return error.response.statusText;
+  }
+};
+
+export const getConferenceStandings = async () => {
+  try {
+    const response = await axios.get(
+      `https://data.nba.net/10s/prod/v1/current/standings_conference.json`
+    );
+    return response;
+  } catch (error) {
+    console.log(error.response.statusText);
+    return error.response.statusText;
+  }
+};
+
+export const getPlayerPic = async (playerId) => {
+  try {
+    const response = await axios.get(
+      `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.response.statusText);
+    return error.response.statusText;
+  }
+};
+
 export const getTeamData = async () => {
   try {
     const response = await axios.get(

@@ -7,7 +7,7 @@ const LiveBoxscore = ({ vTeamScore, hTeamScore, quarter, clock }) => {
       <div className="text-5xl font-light">
         <h3>{vTeamScore}</h3>
       </div>
-      <div className="text-gray-500 text-center">
+      <div className="text-gray-400 text-center">
         <p>{quarterFormat(quarter)}</p>
         <p>{clock}</p>
       </div>

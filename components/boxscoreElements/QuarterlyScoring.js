@@ -14,7 +14,7 @@ const QuarterlyScoring = ({ vTeam, hTeam }) => {
             <th className="w-20 ...">TOL</th>
           </tr>
         </thead>
-        <tbody className="text-center text-gray-500">
+        <tbody className="text-center text-gray-400">
           <tr>
             <td className="text-left text-white h-12">{vTeam.triCode}</td>
             <td>{vTeam.linescore[0].score}</td>

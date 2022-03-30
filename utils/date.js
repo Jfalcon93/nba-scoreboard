@@ -1,4 +1,4 @@
-// All date functions in here to be exported and used across app
+// All date functions exported and used across app
 
 const getToday = () => {
   let currentDate = new Date();

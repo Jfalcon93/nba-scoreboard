@@ -6,3 +6,10 @@
 body {
   background-color: black;
 }
+
+tr:nth-child(even) {
+  background: rgb(39 39 42);
+}
+tr:nth-child(odd) {
+  background: rgb(0, 0, 0);
+}

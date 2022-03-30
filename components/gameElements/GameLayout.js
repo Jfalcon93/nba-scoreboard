@@ -44,7 +44,7 @@ const GameLayout = ({ game }) => {
           query: { bid: game.game.gameId, date: game.game.homeStartDate },
         }}
       >
-        <a className="w-full hover:text-gray-500">{scoreBoard}</a>
+        <a className="w-full hover:text-gray-400">{scoreBoard}</a>
       </Link>
       <Team
         logo={game.game.hTeam.triCode}

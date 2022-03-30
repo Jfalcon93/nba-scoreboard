@@ -6,7 +6,7 @@ const PostBoxscore = ({ vTeamScore, hTeamScore }) => {
       <div className="text-5xl font-light">
         <h3>{vTeamScore}</h3>
       </div>
-      <div className="text-gray-500">
+      <div className="text-gray-400">
         <p>Final</p>
       </div>
       <div className="text-5xl font-light">

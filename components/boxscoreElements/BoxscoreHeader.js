@@ -18,7 +18,7 @@ const BoxscoreHeader = ({ vTeam, hTeam }) => {
       <h1 className="text-3xl">
         {getFullTeamName(vTeam)} vs. {getFullTeamName(hTeam)}
       </h1>
-      <h3 className="mt-2 text-gray-500">{getDisplayDate()}</h3>
+      <h3 className="mt-2 text-gray-400">{getDisplayDate()}</h3>
     </div>
   );
 };

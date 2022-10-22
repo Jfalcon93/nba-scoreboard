@@ -44,8 +44,8 @@ let fullTeamName = {
   WAS: "Wizards",
 };
 
-export const getFullTeamName = (triCode) => {
-  return fullTeamName[triCode];
+export const getFullTeamName = (tricode) => {
+  return fullTeamName[tricode];
 };
 
 export const quarterFormat = (quarter) => {

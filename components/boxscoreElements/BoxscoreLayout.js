@@ -35,8 +35,8 @@ const BoxscoreLayout = ({ game }) => {
   return (
     <div>
       <BoxscoreHeader
-        vTeam={game.basicGameData.vTeam.triCode}
-        hTeam={game.basicGameData.hTeam.triCode}
+        vTeam={game.basicGameData.vTeam.teamTriCode}
+        hTeam={game.basicGameData.hTeam.teamTriCode}
       />
       {scoreboard}
       {game.basicGameData.statusNum === 1 ? (

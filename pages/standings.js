@@ -15,15 +15,22 @@ const Standings = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [conferenceData, setConferenceData] = useState(null);
+
   useEffect(() => {
     getStandings().then((data) => {
       setData(data);
       setLoading(false);
     });
+    getConferenceStandings().then((data) => {
+      setConferenceData(data);
+    });
   }, []);
 
+  const toggleStandings = (target) => {};
+
   return (
-    <div className="px-4 md:px-16 lg:px-64 flex flex-col font-sans text-white bg-black">
+    <div className="px-4 md:px-16 lg:px-32 2xl:px-96 flex flex-col font-sans text-white bg-black">
       <Head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,15 +45,21 @@ const Standings = () => {
         <h3 className="text-2xl md:text-3xl">NBA Standings</h3>
         <h3 className="mt-2 mb-7 text-gray-400">{getDisplayDate()}</h3>
         <ul className="flex flex-row mb-4">
-          <li className="mr-4 text-indigo-500 hover:text-white">
+          <li
+            className="mr-4 text-indigo-500 hover:text-white"
+            onClick={toggleStandings("conference")}
+          >
             [ Conference ]
           </li>
-          <li className="mr-4 text-indigo-500 underline decoration-2 hover:text-white">
+          <li
+            className="mr-4 text-indigo-500 underline decoration-2 hover:text-white"
+            onClick={toggleStandings("league")}
+          >
             [ League ]
           </li>
         </ul>
         {loading ? (
-          <tr>...loading</tr>
+          <div>...loading</div>
         ) : (
           <LeagueStandings teams={data.league.standard.teams} />
         )}{" "}

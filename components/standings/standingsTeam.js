@@ -5,13 +5,15 @@ const StandingsTeam = ({ team }) => {
 
   if (team.isWinStreak) {
     teamStreak = (
-      <td className="md:pr-12 pr-1 text-center text-green-500">
+      <td className="md:pr-12 pr-1 text-center lg:text-right text-green-500">
         +{team.streak}
       </td>
     );
   } else {
     teamStreak = (
-      <td className="md:pr-12 pr-1 text-center text-red-500">-{team.streak}</td>
+      <td className="md:pr-12 pr-1 text-center lg:text-right text-red-500">
+        -{team.streak}
+      </td>
     );
   }
 

@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="text-center py-2 bg-white text-black">
+      <div className="text-center py-2 bg-gray-200 text-black">
         <p>
           NBA API Endpoints changed recently. Site under maintenance until
           resolved.

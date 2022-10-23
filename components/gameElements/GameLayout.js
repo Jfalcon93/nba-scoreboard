@@ -19,8 +19,8 @@ const GameLayout = ({ game }) => {
       <LiveScore
         vTeamScore={game.game.awayTeam.score}
         hTeamScore={game.game.homeTeam.score}
-        quarter={game.game.period.current}
-        clock={game.game.clock}
+        quarter={game.game.period}
+        clock={game.game.gameStatusText}
       />
     );
   } else if (game.game.gameStatus === 3) {
@@ -46,7 +46,7 @@ const GameLayout = ({ game }) => {
       >
         <a className="w-full hover:text-gray-400">{scoreBoard}</a>
       </Link> */}
-      <p className="w-full hover:text-gray-400">{scoreBoard}</p>
+      <div className="w-full hover:text-gray-400">{scoreBoard}</div>
       <Team
         logo={game.game.homeTeam.teamTricode}
         wins={game.game.homeTeam.wins}

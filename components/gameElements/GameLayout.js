@@ -34,9 +34,9 @@ const GameLayout = ({ game }) => {
   return (
     <div className="flex flex-row justify-center items-center mb-8">
       <Team
-        logo={game.game.awayTeam.teamTricode}
         wins={game.game.awayTeam.wins}
         losses={game.game.awayTeam.losses}
+        teamId={game.game.awayTeam.teamId}
       />
       {/* <Link
         href={{
@@ -48,9 +48,9 @@ const GameLayout = ({ game }) => {
       </Link> */}
       <div className="w-full hover:text-gray-400">{scoreBoard}</div>
       <Team
-        logo={game.game.homeTeam.teamTricode}
         wins={game.game.homeTeam.wins}
         losses={game.game.homeTeam.losses}
+        teamId={game.game.homeTeam.teamId}
       />
     </div>
   );

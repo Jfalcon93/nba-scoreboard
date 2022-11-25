@@ -1,6 +1,5 @@
-export const getTeamLogo = (team) => {
-  let lowerTeam = team.toLowerCase();
-  return `https://i.cdn.turner.com/nba/nba/.element/img/1.0/teamsites/logos/teamlogos_500x500/${lowerTeam}.png`;
+export const getTeamLogo = (teamId) => {
+  return `https://cdn.nba.com/logos/nba/${teamId}/primary/L/logo.svg`;
 };
 
 export const checkNationalTvGame = (arr) => {

@@ -1,7 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    loader: "default",
-    domains: ["cdn.nba.com"],
+    remotePatterns: [{ protocol: "https", hostname: "a.espncdn.com" }],
   },
 };

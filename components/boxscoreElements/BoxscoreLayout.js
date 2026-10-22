@@ -8,48 +8,46 @@ import StatLeaders from "./StatLeaders";
 
 const BoxscoreLayout = ({ game }) => {
   let scoreboard;
-  if (game.basicGameData.statusNum === 1) {
+  if (game.gameStatus === 1) {
     scoreboard = (
       <PreBoxscore
-        startTime={game.basicGameData.startTimeEastern}
-        nationalTv={game.basicGameData.watch.broadcast.broadcasters.national}
+        startTime={game.gameStatusText}
+        nationalTv={game.nationalTv}
       />
     );
-  } else if (game.basicGameData.statusNum === 2) {
+  } else if (game.gameStatus === 2) {
     scoreboard = (
       <LiveBoxscore
-        vTeamScore={game.basicGameData.vTeam.score}
-        hTeamScore={game.basicGameData.hTeam.score}
-        quarter={game.basicGameData.period.current}
-        clock={game.basicGameData.clock}
+        vTeamScore={game.awayTeam.score}
+        hTeamScore={game.homeTeam.score}
+        quarter={game.period}
+        clock={game.clock}
       />
     );
-  } else if (game.basicGameData.statusNum === 3) {
+  } else if (game.gameStatus === 3) {
     scoreboard = (
       <PostBoxscore
-        vTeamScore={game.basicGameData.vTeam.score}
-        hTeamScore={game.basicGameData.hTeam.score}
+        vTeamScore={game.awayTeam.score}
+        hTeamScore={game.homeTeam.score}
       />
     );
   }
   return (
     <div>
       <BoxscoreHeader
-        vTeam={game.basicGameData.vTeam.teamTriCode}
-        hTeam={game.basicGameData.hTeam.teamTriCode}
+        vTeam={game.awayTeam.name}
+        hTeam={game.homeTeam.name}
+        date={game.gameDate}
       />
       {scoreboard}
-      {game.basicGameData.statusNum === 1 ? (
+      {game.gameStatus === 1 ? (
         ""
       ) : (
         <>
-          <QuarterlyScoring
-            vTeam={game.basicGameData.vTeam}
-            hTeam={game.basicGameData.hTeam}
-          />
+          <QuarterlyScoring vTeam={game.awayTeam} hTeam={game.homeTeam} />
           <StatLeaders
-            vLeader={game.stats.vTeam.leaders}
-            hLeader={game.stats.hTeam.leaders}
+            vLeader={game.awayTeam.leaders}
+            hLeader={game.homeTeam.leaders}
           />
         </>
       )}{" "}

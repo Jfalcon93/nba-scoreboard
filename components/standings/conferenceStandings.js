@@ -9,7 +9,7 @@ const ConferenceStandings = ({ teams }) => {
         <thead>
           <tr className="text-right border-b border-zinc-700 rounded-md">
             <th className="md:pr-12 pr-1"></th>
-            <th className="md:pr-j12 pr-1"></th>
+            <th className="md:pr-12 pr-1"></th>
             <th className="md:pr-12 pr-1">W-L</th>
             <th className="md:pr-12 pr-1">PCT</th>
             <th className="md:pr-12 pr-1">GB</th>

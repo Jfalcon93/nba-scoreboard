@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Team from "./Team";
 import PreScore from "./PreScore";
@@ -7,50 +7,49 @@ import PostScore from "./PostScore";
 
 const GameLayout = ({ game }) => {
   let scoreBoard;
-  if (game.game.gameStatus === 1) {
+  if (game.gameStatus === 1) {
     scoreBoard = (
-      <PreScore
-        startTime={game.game.gameStatusText}
-        //nationalTv={game.game.watch.broadcast.broadcasters.national}
-      />
+      <PreScore startTime={game.gameStatusText} nationalTv={game.nationalTv} />
     );
-  } else if (game.game.gameStatus === 2) {
+  } else if (game.gameStatus === 2) {
     scoreBoard = (
       <LiveScore
-        vTeamScore={game.game.awayTeam.score}
-        hTeamScore={game.game.homeTeam.score}
-        quarter={game.game.period}
-        clock={game.game.gameStatusText}
+        vTeamScore={game.awayTeam.score}
+        hTeamScore={game.homeTeam.score}
+        quarter={game.period}
+        clock={game.clock}
       />
     );
-  } else if (game.game.gameStatus === 3) {
+  } else if (game.gameStatus === 3) {
     scoreBoard = (
       <PostScore
-        vTeamScore={game.game.awayTeam.score}
-        hTeamScore={game.game.homeTeam.score}
+        vTeamScore={game.awayTeam.score}
+        hTeamScore={game.homeTeam.score}
       />
     );
   }
   return (
     <div className="flex flex-row justify-center items-center mb-8">
       <Team
-        wins={game.game.awayTeam.wins}
-        losses={game.game.awayTeam.losses}
-        teamId={game.game.awayTeam.teamId}
+        wins={game.awayTeam.wins}
+        losses={game.awayTeam.losses}
+        logo={game.awayTeam.logo}
+        name={game.awayTeam.name}
       />
-      {/* <Link
+      <Link
         href={{
           pathname: "/boxscore",
-          query: { bid: game.game.gameId, date: game.game.homeStartDate },
+          query: { bid: game.gameId },
         }}
+        className="w-full hover:text-gray-400"
       >
-        <a className="w-full hover:text-gray-400">{scoreBoard}</a>
-      </Link> */}
-      <div className="w-full hover:text-gray-400">{scoreBoard}</div>
+        {scoreBoard}
+      </Link>
       <Team
-        wins={game.game.homeTeam.wins}
-        losses={game.game.homeTeam.losses}
-        teamId={game.game.homeTeam.teamId}
+        wins={game.homeTeam.wins}
+        losses={game.homeTeam.losses}
+        logo={game.homeTeam.logo}
+        name={game.homeTeam.name}
       />
     </div>
   );

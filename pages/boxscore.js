@@ -3,29 +3,47 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { getGame } from "../utils/games";
+import axios from "axios";
 import BoxscoreLayout from "../components/boxscoreElements/BoxscoreLayout";
 
 const Boxscore = () => {
   const router = useRouter();
-  const { bid, date } = router.query;
+  const { bid } = router.query;
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (router.query.bid) {
-      getGame(date, bid).then((game) => {
-        setData(game);
-        setLoading(false);
-      });
-    }
-  }, [bid, date, router.query.bid]);
+    if (!bid) return;
+    axios
+      .get(`/api/boxscore/${encodeURIComponent(bid)}`)
+      .then((response) => setData(response.data))
+      .catch((err) =>
+        setError(
+          err.response?.status === 404
+            ? "Game not found."
+            : "Unable to load boxscore. Try again later."
+        )
+      )
+      .finally(() => setLoading(false));
+  }, [bid]);
+
+  let content;
+  if (router.isReady && !bid) {
+    content = <div className="my-7">Game not found.</div>;
+  } else if (loading) {
+    content = <div>...loading</div>;
+  } else if (error) {
+    content = <div className="my-7">{error}</div>;
+  } else {
+    content = <BoxscoreLayout game={data} />;
+  }
 
   return (
     <div className="px-4 md:px-16 lg:px-64 flex flex-col font-sans text-white bg-black">
       <Head>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
@@ -34,10 +52,10 @@ const Boxscore = () => {
         <title>NBA Games</title>
       </Head>
       <Navbar />
-      {loading ? <div>...loading</div> : <BoxscoreLayout game={data} />}{" "}
+      {content}{" "}
       <h3 className="pb-16 pt-8">
-        <Link href="/">
-          <a className="w-full text-indigo-300 hover:text-white">[ home ]</a>
+        <Link href="/" className="w-full text-indigo-300 hover:text-white">
+          [ home ]
         </Link>
       </h3>
     </div>

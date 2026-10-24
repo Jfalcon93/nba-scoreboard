@@ -24,7 +24,7 @@ const StandingsTeam = ({ team }) => {
   }
 
   return (
-    <tr className="text-right hover:bg-zinc-700">
+    <tr className="text-right even:bg-zinc-800 hover:bg-zinc-700">
       <td className="md:pr-12 pr-1 py-1">{team.rank}</td>
       <td className="md:pr-12 pr-1 font-bold">{team.tricode}</td>
       <td className="md:pr-12 pr-1">

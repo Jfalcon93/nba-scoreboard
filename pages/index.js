@@ -1,103 +1,99 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { getDisplayDate } from "../utils/date";
-import Navbar from "../components/Navbar";
-import GameLayout from "../components/gameElements/GameLayout";
 import Link from "next/link";
-import axios from "axios";
+import { useRouter } from "next/router";
+import Navbar from "../components/Navbar";
+import SectionHeading from "../components/SectionHeading";
+import { LiveDot } from "../components/LiveBadge";
+import DateNav from "../components/gameElements/DateNav";
+import GameRow from "../components/gameElements/GameRow";
+import useAutoRefresh from "../utils/useAutoRefresh";
 
-const REFRESH_INTERVAL = 30 * 1000;
+const GROUPS = [
+  { status: 2, title: "Live" },
+  { status: 1, title: "Upcoming" },
+  { status: 3, title: "Final" },
+];
+
+// Keep refreshing until every game on the day is final
+const keepRefreshing = (data) => data.games.some((g) => g.gameStatus !== 3);
 
 export default function Home() {
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const router = useRouter();
+  // ?date=YYYYMMDD picks the day; no date means today
+  const date = typeof router.query.date === "string" ? router.query.date : null;
+  const url = router.isReady
+    ? `/api/games${date ? `?date=${encodeURIComponent(date)}` : ""}`
+    : null;
+  const { data, loading } = useAutoRefresh(url, keepRefreshing);
 
-  // Refresh scores until every game is final. Skip refreshes while the tab is
-  // hidden and catch up as soon as it's visible again.
-  useEffect(() => {
-    let timer;
-    let cancelled = false;
+  // Show the requested day right away, before its games load
+  const shownDate = /^\d{8}$/.test(date ?? "")
+    ? `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`
+    : data?.date ?? null;
 
-    const loadGames = async () => {
-      clearTimeout(timer);
-      let keepRefreshing = true;
-      try {
-        const response = await axios.get("/api/games");
-        if (cancelled) return;
-        setGames(response.data.games);
-        setError(false);
-        keepRefreshing = response.data.games.some((g) => g.gameStatus !== 3);
-      } catch {
-        if (cancelled) return;
-        setError(true);
-      }
-      setLoading(false);
-      if (keepRefreshing && !document.hidden) {
-        timer = setTimeout(loadGames, REFRESH_INTERVAL);
-      }
-    };
+  const changeDate = (newDate) => {
+    router.push(newDate ? { pathname: "/", query: { date: newDate } } : "/", undefined, {
+      shallow: true,
+    });
+  };
 
-    const onVisibilityChange = () => {
-      if (!document.hidden) loadGames();
-    };
+  const liveCount = data ? data.games.filter((g) => g.gameStatus === 2).length : 0;
 
-    loadGames();
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-    };
-  }, []);
-
-  // A failed refresh keeps showing the last scores we loaded
   let content;
-  if (loading) {
-    content = <div>...loading</div>;
-  } else if (games.length > 0) {
-    content = games.map((game) => (
-      <div key={game.gameId}>
-        <GameLayout game={game} />
-      </div>
-    ));
-  } else if (error) {
-    content = <div> Unable to load games. Try again later. </div>;
+  if (loading || !router.isReady) {
+    content = <p className="mt-10">...loading</p>;
+  } else if (!data) {
+    content = <p className="mt-10">Unable to load games. Try again later.</p>;
+  } else if (data.games.length < 1) {
+    content = <p className="mt-10">No games on this day.</p>;
   } else {
-    content = <div> No Games Today </div>;
+    content = GROUPS.map((group) => {
+      const games = data.games.filter((g) => g.gameStatus === group.status);
+      if (games.length < 1) return null;
+      return (
+        <section key={group.status} className="mt-10">
+          <SectionHeading className="mb-1">
+            {group.title} · {games.length}
+          </SectionHeading>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,400px),1fr))] gap-x-12">
+            {games.map((game) => (
+              <GameRow key={game.gameId} game={game} />
+            ))}
+          </div>
+        </section>
+      );
+    });
   }
 
   return (
-    <>
-      <div className="px-4 md:px-16 lg:px-64 2xl:px-96 flex flex-col font-sans text-white bg-black">
-        <Head>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
-            rel="stylesheet"
-          />
-          <title>NBA Games</title>
-        </Head>
+    <div className="min-h-screen font-sans text-white bg-black">
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NBA Games</title>
+      </Head>
+      <div className="max-w-[1040px] mx-auto px-4 sm:px-8 lg:px-12 pb-24">
         <Navbar />
-        <div className="my-7">
-          <h1 className="text-2xl md:text-3xl">NBA Scores</h1>
-          <h3 className="mt-2 mb-7 text-gray-400">{getDisplayDate()}</h3>
+        <header className="flex flex-wrap justify-between items-end gap-4 mt-12">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-[32px] font-medium tracking-tight">NBA Scores</h1>
+            <DateNav date={shownDate} isToday={!date} onChange={changeDate} />
+          </div>
           <Link
             href="/standings"
-            className="transition duration-300 ease-in-out text-blue-400 hover:text-white"
+            className="inline-flex items-center min-h-[44px] text-[15px] text-blue-400 transition duration-300 ease-in-out hover:text-white"
           >
             [ standings ]
           </Link>
-        </div>
-        <div className="mt-4 flex flex-col md:grid md:gap-x-16 xl:gap-x-32 md:grid-cols-2 2xl:gap-x-48">
-          {content}
-        </div>
-        <footer className="pb-32"></footer>
+        </header>
+        {liveCount > 0 && (
+          <p className="flex items-center gap-2 mt-2 text-[13px] text-zinc-400">
+            <LiveDot />
+            {liveCount} live · scores update every 30 seconds
+          </p>
+        )}
+        {content}
       </div>
-    </>
+    </div>
   );
 }

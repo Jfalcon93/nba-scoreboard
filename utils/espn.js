@@ -26,3 +26,14 @@ export const getClock = (status) => {
   if (status.type.name === "STATUS_END_PERIOD") return "End";
   return status.displayClock;
 };
+
+// Site background is black, so prefer the dark-mode logo. The scoreboard
+// gives team.logoDark; the game summary gives a list of logos tagged by rel.
+export const getLogo = (team) => {
+  if (team.logoDark || team.logo) return team.logoDark ?? team.logo;
+  const logos = team.logos ?? [];
+  const dark = logos.find(
+    (l) => l.rel.includes("dark") && !l.rel.includes("scoreboard")
+  );
+  return (dark ?? logos[0])?.href;
+};

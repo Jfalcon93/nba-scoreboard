@@ -1,56 +1,46 @@
-import react from "react";
-import BoxscoreHeader from "./BoxscoreHeader";
-import PostBoxscore from "./boxscoreScoreboards/PostBoxscore";
-import PreBoxscore from "./boxscoreScoreboards/PreBoxscore";
-import LiveBoxscore from "./boxscoreScoreboards/LiveBoxscore";
+import SectionHeading from "../SectionHeading";
+import Scorebug from "./Scorebug";
 import QuarterlyScoring from "./QuarterlyScoring";
 import StatLeaders from "./StatLeaders";
+import TeamStats from "./TeamStats";
+import PlayerStats from "./PlayerStats";
 
 const BoxscoreLayout = ({ game }) => {
-  let scoreboard;
-  if (game.gameStatus === 1) {
-    scoreboard = (
-      <PreBoxscore
-        startTime={game.gameStatusText}
-        nationalTv={game.nationalTv}
-      />
-    );
-  } else if (game.gameStatus === 2) {
-    scoreboard = (
-      <LiveBoxscore
-        vTeamScore={game.awayTeam.score}
-        hTeamScore={game.homeTeam.score}
-        quarter={game.period}
-        clock={game.clock}
-      />
-    );
-  } else if (game.gameStatus === 3) {
-    scoreboard = (
-      <PostBoxscore
-        vTeamScore={game.awayTeam.score}
-        hTeamScore={game.homeTeam.score}
-      />
-    );
-  }
+  const { awayTeam, homeTeam, gameStatus } = game;
+  const meta = [
+    game.gameDate,
+    game.venue,
+    ...game.nationalTv,
+    gameStatus !== 3 ? "updates every 30 seconds" : null,
+  ].filter(Boolean);
+
   return (
     <div>
-      <BoxscoreHeader
-        vTeam={game.awayTeam.name}
-        hTeam={game.homeTeam.name}
-        date={game.gameDate}
-      />
-      {scoreboard}
-      {game.gameStatus === 1 ? (
-        ""
-      ) : (
+      <Scorebug game={game} />
+      <p className="mt-6 text-center text-[13px] text-zinc-400">{meta.join(" · ")}</p>
+      {gameStatus !== 1 && (
         <>
-          <QuarterlyScoring vTeam={game.awayTeam} hTeam={game.homeTeam} />
-          <StatLeaders
-            vLeader={game.awayTeam.leaders}
-            hLeader={game.homeTeam.leaders}
-          />
+          <section className="mt-12">
+            <SectionHeading className="mb-3">Scoring</SectionHeading>
+            <QuarterlyScoring vTeam={awayTeam} hTeam={homeTeam} />
+          </section>
+          <section className="mt-12">
+            <SectionHeading className="mb-3">Leaders</SectionHeading>
+            <StatLeaders vTeam={awayTeam} hTeam={homeTeam} />
+          </section>
+          {game.teamStats.length > 0 && (
+            <section className="mt-12">
+              <SectionHeading className="mb-3">Team stats</SectionHeading>
+              <TeamStats vTeam={awayTeam} hTeam={homeTeam} stats={game.teamStats} />
+            </section>
+          )}
+          {game.players.away && game.players.home && (
+            <section className="mt-12">
+              <PlayerStats vTeam={awayTeam} hTeam={homeTeam} players={game.players} />
+            </section>
+          )}
         </>
-      )}{" "}
+      )}
     </div>
   );
 };

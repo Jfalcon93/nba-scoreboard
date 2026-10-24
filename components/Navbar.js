@@ -1,23 +1,26 @@
-import React from "react";
-
 const Navbar = () => {
   return (
-    <nav>
-      <ul className="flex flex-row mt-16">
-        <li className="mr-auto transition duration-300 ease-in-out text-indigo-400 hover:text-white">
-          <a href="https://www.jordanfalcon.dev">[ jordanfalcon ] </a>
-        </li>
-        <li className="mr-3 transition duration-300 ease-in-out text-blue-400 hover:text-white">
-          <a href="https://twitter.com/yungyoshh">
-            [ <i className="fab fa-twitter"></i> ]
-          </a>
-        </li>
-        <li className="transition duration-300 ease-in-out text-indigo-400 hover:text-white">
-          <a href="https://github.com/jfalcon93">
-            [ <i className="fab fa-github"></i> ]
-          </a>
-        </li>
-      </ul>
+    <nav className="flex flex-wrap justify-between items-center gap-3 pt-12 text-[15px]">
+      <a
+        href="https://www.jordanfalcon.dev"
+        className="transition duration-300 ease-in-out text-indigo-400 hover:text-white"
+      >
+        [ jordanfalcon ]
+      </a>
+      <div className="flex gap-4">
+        <a
+          href="https://twitter.com/yungyoshh"
+          className="transition duration-300 ease-in-out text-blue-400 hover:text-white"
+        >
+          [ twitter ]
+        </a>
+        <a
+          href="https://github.com/jfalcon93"
+          className="transition duration-300 ease-in-out text-indigo-400 hover:text-white"
+        >
+          [ github ]
+        </a>
+      </div>
     </nav>
   );
 };
